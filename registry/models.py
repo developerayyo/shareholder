@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from .validators import ASCIIUsernameValidator
+from django_countries.fields import CountryField
 
 
 #Constants
@@ -20,6 +21,13 @@ PAYMENT_MODE = (
     ("CHEQUE", "CHEQUE"),
     ("TRANSFER", "TRANSFER")
 )
+
+ENTITY = (
+    ("INDIVIDUAL", "INDIVIDUAL"),
+    ("SOCIETY", "SOCIETY"),
+    ("CORPORATION", "CORPORATION")
+)
+
 STATE = (
     ("OGUN", "OGUN"),
     ("OSUN", "OSUN"),
@@ -27,14 +35,10 @@ STATE = (
     ("LAGOS", "LAGOS"),
 )
 AREA = (
-    ("OG1", "OG1"),
-    ("OG2", "OG2"),
-    ("OS1", "OS1"),
-    ("OS2", "OS2"),
-    ("ABJ1", "ABJ1"),
-    ("ABJ2", "ABJ2"),
-    ("LAG1", "LAG1"),
-    ("LAG2", "LAG2")
+    ("OG", "OG"),
+    ("OS", "OS"),
+    ("AB", "AB"),
+    ("LA", "LA")
 )
 
 
@@ -63,42 +67,33 @@ class User(AbstractUser):
 
 class ShareHolder(models.Model):
     name = models.CharField(max_length=50)
+    ShareHolderId = models.IntegerField(blank=True, null=True)
     address = models.CharField(max_length=60, blank=True, null=True)
     SocialSecurityNumber = models.IntegerField(unique=True)
     LegacyShareholderID =  models.CharField(max_length=100)
-    City = models.CharField(max_length=50)
-    Area = models.CharField(max_length=50)
-    AreaName = models.CharField(max_length=50)
     PostCode = models.IntegerField()
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    EmployeeNumber = models.CharField(validators=[phone_regex], max_length=15, blank=True, null=True)
+    EmployeeNumber = models.IntegerField(blank=True, null=True)
     MaritalStatus =  models.CharField(choices=MARITAL_STATUS, max_length=40)
     Sex = models.CharField(choices=GENDER, max_length=40)
-    Domicile = models.CharField(max_length=50)
+    country = CountryField(blank=True, null=True)
     BirthDate = models.DateField(blank=True, null=True)
     DateApplied = models.DateTimeField(blank=True, null=True)
     Phone = models.CharField(validators=[phone_regex], max_length=15, blank=True, null=True)
     BankBankAccountNo = models.IntegerField()
-    # EmailAddress = models.EmailField(blank=True, null=True)
-    ShareQty = models.IntegerField()
-    UnitValue = models.PositiveIntegerField()
-    ShareValue = models.PositiveIntegerField()
-    PaymentMode = models.CharField(choices=PAYMENT_MODE, max_length=50)
-    State = models.CharField(choices=STATE, max_length=50)
-    Area = models.CharField(choices=AREA, max_length=50)
-    # PaymentMode
-    # PrintChequeFlag
-    # ReserveFlag   
-    # WaiveFlag
-    # Classification
-    # Entity
-    # ShareQty
-    # ShareValue
-    # EMailFlag
-    # UnitValue
-    # BusinessID
+    EmailAddress = models.EmailField(blank=True, null=True)
+    PaymentMode = models.CharField(choices=PAYMENT_MODE, max_length=50, blank=True, null=True)
+    BusinessID = models.IntegerField(blank=True, null=True)
+    ShareQty = models.IntegerField(blank=True, null=True)
+    UnitValue = models.PositiveIntegerField(blank=True, null=True)
+    ShareValue = models.PositiveIntegerField(blank=True, null=True)
+    AreaName = models.CharField(max_length=50)
+
     def __str__(self):
         return self.name 
+
+# class Area(models.Model):
+#     name = models.CharField()
 
 
     
