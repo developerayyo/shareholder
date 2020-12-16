@@ -117,3 +117,6 @@ media/
 settings.ini
 venv/
 .env
+
+#Ayinde
+.editorconfig

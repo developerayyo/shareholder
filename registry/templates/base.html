@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- Custom Stylesheet -->
+    <link href="{% static 'js/plugins/tables/css/datatable/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/material-dashboard.css' %}" rel="stylesheet" />
     <link href="{% static 'css/style.css' %}" rel="stylesheet" />
 </head>
@@ -48,9 +49,9 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header">
             <div class="header-content clearfix">
-                
+
                 <div class="nav-control">
                     <div class="hamburger">
                         <span class="toggle-icon"><i class="icon-menu"></i></span>
@@ -99,10 +100,10 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
+        <div class="nk-sidebar">
             <div class="nk-nav-scroll">
             {% block sidebar %}
-                {% include 'partial_active_element.html' with active='Dashboard' %}
+                {% include 'sidebar.html' with active='Dashboard' %}
             {% endblock sidebar %}
             </div>
         </div>
@@ -114,16 +115,24 @@
             Content body start
         ***********************************-->
         <div class="content-body">
+        <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+                    </ol>
+                </div>
+            </div>
             <div class="container-fluid mt-3">
-                {% block content%} {% endblock %}
+                {% block content %} {% endblock %}
             </div>
             <!-- #/ container -->
         </div>
         <!--**********************************
             Content body end
         ***********************************-->
-        
-        
+
+
         <!--**********************************
             Footer start
         ***********************************-->

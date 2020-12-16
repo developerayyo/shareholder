@@ -46,7 +46,7 @@
                                 <form class="mt-5 mb-5 login-input" method="post" action="{% url 'login' %}">{% csrf_token %}
                                 {% for field in form %}
                                     <div class="form-group">
-                                        <input class="form-control" {% if field.html_name|lower == 'username' %} type="text" placeholder="Username" {% endif %} id="{{ field.id_for_label }}" name="{{ field.name }}" type="password" placeholder="Password...">
+                                        <input class="form-control px-3" {% if field.html_name|lower == 'username' %} type="text" placeholder="Username" {% endif %} id="{{ field.id_for_label }}" name="{{ field.name }}" type="password" placeholder="Password...">
                                         {{ field.errors}}
                                         {% comment %} <input type="email" class="form-control" placeholder="Email"> {% endcomment %}
                                     </div>
