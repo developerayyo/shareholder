@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 registry/__pycache__/
+registry/migrations/__pycache__/
 shareholder/__pycache__/
 
 *.py[cod]
