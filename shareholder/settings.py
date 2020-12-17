@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'registry',
     'django.contrib.humanize',
     'django_countries',
+    'import_export',
+    # 'cities'
 ]
 
 MIDDLEWARE = [
@@ -116,15 +118,23 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
+
+DATE_INPUT_FORMATS = ['%d/%m-%Y']
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# local media settings
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'registry/static'),
 # ]
@@ -132,3 +142,5 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'registry.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240 # higher than the count of fields

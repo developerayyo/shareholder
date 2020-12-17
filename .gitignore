@@ -117,3 +117,4 @@ media/
 settings.ini
 venv/
 .env
+static/

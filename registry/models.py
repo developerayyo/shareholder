@@ -3,43 +3,75 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from .validators import ASCIIUsernameValidator
 from django_countries.fields import CountryField
+from django.conf import settings
 
 
 #Constants
 MARITAL_STATUS = (
-    ("SINGLE", "SINGLE"),
-    ("MARRIED", "MARRIED")
+    ("Single", "Single"),
+    ("Married", "Married"),
 )
 
 GENDER = (
-    ("MALE", "MALE"),
-    ("FEMALE", "FEMALE")
+    ("Male", "Male"),
+    ("Female", "Female"),
 )
 
 PAYMENT_MODE = (
-    ("CASH", "CASH"),
-    ("CHEQUE", "CHEQUE"),
-    ("TRANSFER", "TRANSFER")
+    ("Cash", "Cash"),
+    ("Cheque", "Cheque"),
+    ("Transfer", "Transfer")
 )
 
 ENTITY = (
-    ("INDIVIDUAL", "INDIVIDUAL"),
-    ("SOCIETY", "SOCIETY"),
-    ("CORPORATION", "CORPORATION")
+    ("Individual", "Individual"),
+    ("Society", "Society"),
+    ("Corporation", "Corporation"),
 )
 
-STATE = (
-    ("OGUN", "OGUN"),
-    ("OSUN", "OSUN"),
-    ("ABUJA", "ABUJA"),
-    ("LAGOS", "LAGOS"),
+AREA_NAME = (
+    ("Ogun", "Ogun"),
+    ("Osun", "Osun"),
+    ("Ondo", "Ondo"),
+    ("Ekiti", "Ekiti"),
+    ("Oyo", "Oyo"),
 )
-AREA = (
+AREA_CODE = (
     ("OG", "OG"),
     ("OS", "OS"),
-    ("AB", "AB"),
-    ("LA", "LA")
+    ("ON", "ON"),
+    ("EK", "EK"),
+    ("OY", "OY"),
 )
+
+AREA_CLASS = (
+    ("OGUN1 INDIVIDUAL", "OGUN1 INDIVIDUAL"),
+    ("OGUN1 UNION", "OGUN1 UNION"),
+    ("OGUN2 INDIVIDUAL", "OGUN2 INDIVIDUAL"),
+    ("OGUN2 UNION", "OGUN2 UNION"),
+
+    ("OSUN1 INDIVIDUAL", "OSUN1 INDIVIDUAL"),
+    ("OSUN1 UNION", "OSUN1 UNION"),
+    ("OSUN2 INDIVIDUAL", "OSUN2 INDIVIDUAL"),
+    ("OSUN2 UNION", "OSUN2 UNION"),
+
+    ("ONDO1 INDIVIDUAL", "OGUN1 INDIVIDUAL"),
+    ("ONDO1 UNION", "OGUN1 UNION"),
+    ("ONDO2 INDIVIDUAL", "ONDO2 INDIVIDUAL"),
+    ("ONDO2 UNION", "ONDO2 UNION"),
+
+    ("EKITI1 INDIVIDUAL", "EKITI1 INDIVIDUAL"),
+    ("EKITI1 UNION", "EKITI1 UNION"),
+    ("EKITI2 INDIVIDUAL", "EKITI2 INDIVIDUAL"),
+    ("EKITI2 UNION", "EKITI2 UNION"),
+
+    ("OYO1 INDIVIDUAL", "OYO1 INDIVIDUAL"),
+    ("OYO1 UNION", "OYO1 UNION"),
+    ("OYO2 INDIVIDUAL", "OYO2 INDIVIDUAL"),
+    ("OYO2 UNION", "OYO2 UNION"),
+
+)
+
 
 
 # Create your models here.
@@ -66,35 +98,33 @@ class User(AbstractUser):
         return full_name
 
 class ShareHolder(models.Model):
-    name = models.CharField(max_length=50)
-    ShareHolderId = models.IntegerField(blank=True, null=True)
+    name = models.CharField(max_length=50,blank=True, null=True)
+    share_holder_id = models.IntegerField(blank=True, null=True)
+    social_security_number = models.IntegerField(blank=True, null=True)
+    legacy_shareholder_id =  models.CharField(max_length=100)
+    post_code = models.IntegerField(blank=True, null=True)
     address = models.CharField(max_length=60, blank=True, null=True)
-    SocialSecurityNumber = models.IntegerField(unique=True)
-    LegacyShareholderID =  models.CharField(max_length=100)
-    PostCode = models.IntegerField()
+    employee_number = models.IntegerField(blank=True, null=True)
+    marital_status =  models.CharField(choices=MARITAL_STATUS, max_length=40, blank=True, null=True)
+    sex = models.CharField(choices=GENDER, max_length=40, blank=True, null=True)
+    country = models.CharField(blank=True, null=True, max_length=50)
+    birth_date = models.CharField(max_length=50, blank=True, null=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    EmployeeNumber = models.IntegerField(blank=True, null=True)
-    MaritalStatus =  models.CharField(choices=MARITAL_STATUS, max_length=40)
-    Sex = models.CharField(choices=GENDER, max_length=40)
-    country = CountryField(blank=True, null=True)
-    BirthDate = models.DateField(blank=True, null=True)
-    DateApplied = models.DateTimeField(blank=True, null=True)
-    Phone = models.CharField(validators=[phone_regex], max_length=15, blank=True, null=True)
-    BankBankAccountNo = models.IntegerField()
-    EmailAddress = models.EmailField(blank=True, null=True)
-    PaymentMode = models.CharField(choices=PAYMENT_MODE, max_length=50, blank=True, null=True)
-    BusinessID = models.IntegerField(blank=True, null=True)
-    ShareQty = models.IntegerField(blank=True, null=True)
-    UnitValue = models.PositiveIntegerField(blank=True, null=True)
-    ShareValue = models.PositiveIntegerField(blank=True, null=True)
-    AreaName = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name 
-
-# class Area(models.Model):
-#     name = models.CharField()
-
+    date_applied = models.CharField(max_length=50, blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    bank = models.CharField(max_length=100, blank=True, null=True)
+    bank_account_no = models.IntegerField(blank=True, null=True)
+    email_address = models.EmailField(blank=True, null=True)
+    payment_mode = models.CharField(choices=PAYMENT_MODE, max_length=50, blank=True, null=True)
+    business_id = models.IntegerField(blank=True, null=True)
+    share_qty = models.IntegerField(blank=True, null=True)
+    unit_value = models.PositiveIntegerField(blank=True, null=True)
+    share_value = models.PositiveIntegerField(blank=True, null=True)
+    area_name = models.CharField(choices=AREA_NAME, max_length=50, blank=True, null=True)
+    area_code = models.CharField(choices=AREA_CODE, max_length=50, blank=True, null=True)
+    area_class = models.CharField(choices=AREA_CLASS, max_length=100, blank=True, null=True)
+    city = models.CharField(max_length=50, blank=True, null=True)
+    entity = models.CharField(choices=ENTITY, max_length=50, blank=True, null=True)
 
     
 
