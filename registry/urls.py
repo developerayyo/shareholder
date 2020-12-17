@@ -3,6 +3,6 @@ from django.contrib.auth.decorators import login_required
 from . import views
 
 urlpatterns = [
-    path('', views.home, name="home"),
-    path('shareholders/', views.shareholders, name="shareholders"),
+    path("", views.home, name="home"),
+    path("shareholders/", views.shareholders, name="shareholders"),
 ]
